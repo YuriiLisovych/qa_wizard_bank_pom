@@ -1,7 +1,21 @@
 import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
+import { AddCustomerPage } from "../../../src/pages/manager/AddCustomerPage";
+
+let randomFirstName = faker.person.firstName();
+let randomLastName = faker.person.lastName();
+let randomPostCode = faker.location.zipCode();
 
 test.beforeEach(async ({ page }) => {
+
+  const addCustomerPage = new AddCustomerPage(page);
+
+  await addCustomerPage.open('');
+  await addCustomerPage.fillUserFirstNameField(randomFirstName);
+  await addCustomerPage.fillUserLastNameField(randomLastName);
+  await addCustomerPage.fillPostCodeField(randomPostCode);
+  await addCustomerPage.clickAddCustomerButton();
+
   /* 
   Pre-conditons:
   1. Open Add Customer page.
@@ -13,6 +27,15 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('Assert manager can delete customer', async ({ page }) => {
+
+  const addCustomerPage = new AddCustomerPage(page);
+
+  await addCustomerPage.clickCustomersTabButton();
+  await addCustomerPage.waitForLoading();
+  await addCustomerPage.clickDeleteUserButton(randomFirstName, randomLastName, randomPostCode);
+  await addCustomerPage.assertCustomerIsDeleted(randomFirstName, randomLastName, randomPostCode);
+  await addCustomerPage.reloadPage();
+  await addCustomerPage.assertCustomerIsDeleted(randomFirstName, randomLastName, randomPostCode);
   /* 
   Test:
   1. Open Customers page.
