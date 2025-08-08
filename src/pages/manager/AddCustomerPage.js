@@ -47,8 +47,8 @@ export class AddCustomerPage {
     await this.page.waitForURL('/angularJs-protractor/BankingProject/#/manager/list');
   }
 
-  async reloadPage(page) {
-    await this.page.reload(page);
+  async reloadPage() {
+    await this.page.reload();
   }
 
   // add customer
