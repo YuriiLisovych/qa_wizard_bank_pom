@@ -2,15 +2,19 @@ import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { AddCustomerPage } from "../../../src/pages/manager/AddCustomerPage";
 
-let randomFirstName = faker.person.firstName();
-let randomLastName = faker.person.lastName();
-let randomPostCode = faker.location.zipCode();
+let randomFirstName;
+let randomLastName;
+let randomPostCode;
 
 test.beforeEach(async ({ page }) => {
 
   const addCustomerPage = new AddCustomerPage(page);
 
-  await addCustomerPage.open('');
+  randomFirstName = faker.person.firstName();
+  randomLastName = faker.person.lastName();
+  randomPostCode = faker.location.zipCode();
+
+  await addCustomerPage.open();
   await addCustomerPage.fillUserFirstNameField(randomFirstName);
   await addCustomerPage.fillUserLastNameField(randomLastName);
   await addCustomerPage.fillPostCodeField(randomPostCode);

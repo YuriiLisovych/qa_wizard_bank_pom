@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 export class BankHomePage {
   constructor(page) {
     this.page = page;
-    this.customerLoginButton = page.getByRole('button', {
+    this.customerLoginButtonLocator = page.getByRole('button', {
       name: 'Customer Login',
     });
     this.bankManagerLoginButtonLocator = page.getByRole('button', { name: 'Bank Manager Login' });
@@ -14,7 +14,7 @@ export class BankHomePage {
   }
 
   async clickCustomerLoginButton() {
-    await this.customerLoginButton.click();
+    await this.customerLoginButtonLocator.click();
   }
 
   async clickBankManagerLoginButton() {

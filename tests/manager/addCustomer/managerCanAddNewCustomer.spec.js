@@ -5,7 +5,6 @@ import { BankManagerMainPage } from "../../../src/pages/manager/BankManagerMainP
 
 test('Assert manager can add new customer', async ({ page }) => {
   const addCustomerPage = new AddCustomerPage(page);
-  const bankManagerMainPage = new BankManagerMainPage(page);
 
   await addCustomerPage.open();
   const randomFirstName = faker.person.firstName();
@@ -16,7 +15,7 @@ test('Assert manager can add new customer', async ({ page }) => {
   await addCustomerPage.fillUserLastNameField(randomLastName);
   await addCustomerPage.fillPostCodeField(randomPostCode);
   await addCustomerPage.clickAddCustomerSubmitButton();
-  await addCustomerPage.reloadPage();
+  await addCustomerPage.page.on('dialog', dialog => dialog.accept());
   await addCustomerPage.clickCustomersTabButton();
 
   await addCustomerPage.assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode);

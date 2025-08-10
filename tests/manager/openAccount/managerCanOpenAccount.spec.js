@@ -18,8 +18,8 @@ test.beforeEach(async ({ page }) => {
   await addCustomerPage.fillUserFirstNameField(randomFirstName);
   await addCustomerPage.fillUserLastNameField(randomLastName);
   await addCustomerPage.fillPostCodeField(randomPostCode);
-  await addCustomerPage.clickAddCustomerButton();
-  await addCustomerPage.reloadPage();
+  await addCustomerPage.clickAddCustomerSubmitButton();
+  await addCustomerPage.page.on('dialog', dialog => dialog.accept());
   /* 
   Pre-conditons:
   1. Open Add Customer page
@@ -31,7 +31,7 @@ test.beforeEach(async ({ page }) => {
   */
 });
 
-test('Assert manager can add new customer', async ({ page }) => {
+test('Assert manager can open an account for a new customer', async ({ page }) => {
 
   const addCustomerPage = new AddCustomerPage(page);
   const fullName = `${randomFirstName} ${randomLastName}`
@@ -41,7 +41,7 @@ test('Assert manager can add new customer', async ({ page }) => {
   await addCustomerPage.selectCustomerNameDropDown(fullName);
   await addCustomerPage.selectCurrencyDropDown('Dollar');
   await addCustomerPage.clickProcessButton();
-  await addCustomerPage.reloadPage();
+  await addCustomerPage.page.on('dialog', dialog => dialog.accept());
   await addCustomerPage.clickCustomersTabButton();
   await addCustomerPage.assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode);
   await addCustomerPage.assertCustomerAccountNumberHasNumberValue(randomFirstName, randomLastName, randomPostCode);

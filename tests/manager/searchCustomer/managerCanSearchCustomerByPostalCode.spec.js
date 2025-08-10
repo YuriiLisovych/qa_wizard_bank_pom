@@ -18,7 +18,8 @@ test.beforeEach(async ({ page }) => {
     await addCustomerPage.fillUserFirstNameField(randomFirstName);
     await addCustomerPage.fillUserLastNameField(randomLastName);
     await addCustomerPage.fillPostCodeField(randomPostCode);
-    await addCustomerPage.clickAddCustomerButton();
+    await addCustomerPage.clickAddCustomerSubmitButton();
+    await addCustomerPage.page.on('dialog', dialog => dialog.accept());
   /* 
   Pre-conditons:
   1. Open Add Customer page.
@@ -36,7 +37,7 @@ test('Assert manager can search customer by Postal Code', async ({ page }) => {
     await addCustomerPage.clickCustomersTabButton();
     await addCustomerPage.fillSearchCustomerField(randomPostCode);
     await addCustomerPage.assertCustomerIsPresent(randomPostCode);
-    await addCustomerPage.checkCountTableLimit();
+    await addCustomerPage.checkCountTableLimit(1);
   /* 
   Test:
   1. Open Customers page.

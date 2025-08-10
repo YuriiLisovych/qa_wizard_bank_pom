@@ -18,7 +18,8 @@ test.beforeEach(async ({ page }) => {
   await addCustomerPage.fillUserFirstNameField(randomFirstName);
   await addCustomerPage.fillUserLastNameField(randomLastName);
   await addCustomerPage.fillPostCodeField(randomPostCode);
-  await addCustomerPage.clickAddCustomerButton();
+  await addCustomerPage.clickAddCustomerSubmitButton();
+  await addCustomerPage.page.on('dialog', dialog => dialog.accept());
 
   /* 
   Pre-conditons:
@@ -36,9 +37,9 @@ test('Assert manager can search customer by First Name', async ({ page }) => {
   const addCustomerPage = new AddCustomerPage(page);
 
   await addCustomerPage.clickCustomersTabButton();
-  await addCustomerPage.fillSearchCustomerField(randomFirstName);
-  await addCustomerPage.assertCustomerIsPresent(randomFirstName);
-  await addCustomerPage.checkCountTableLimit();
+  await addCustomerPage.fillSearchCustomerField(randomFirstName, randomLastName, randomPostCode);
+  await addCustomerPage.assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode);
+  await addCustomerPage.checkCountTableLimit(1);
   /* 
   Test:
   1. Open Customers page.

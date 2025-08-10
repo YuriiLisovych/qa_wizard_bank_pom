@@ -9,9 +9,7 @@ test('Assert manager can Login', async ({ page }) => {
 
   await bankHomePage.openLoginPage();
   await bankHomePage.clickBankManagerLoginButton();
-  await bankManagerMainPage.assertAddCustomerButtonVisible();
-  await bankManagerMainPage.assertOpenAccountButtonVisible();
-  await bankManagerMainPage.assertCustomersButtonVisible();
+  await bankManagerMainPage.assertButtonsOnManagerPage();
 
 
 

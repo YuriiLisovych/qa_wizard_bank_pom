@@ -7,15 +7,16 @@ export class AddCustomerPage {
     this.firstNameField = page.getByPlaceholder('First Name');
     this.lastNameField = page.getByPlaceholder('Last Name');
     this.postCodeField = page.getByPlaceholder('Post Code');
-    this.addCustomerSubmitButtonLocator = page.getByRole('form').getByRole('button', { name: 'Add Customer' });
-    this.customersButtonLocator = page.getByRole('button', { name: 'Customers' });
-
+    this.addCustomerSubmitButton = page.getByRole('form').getByRole('button', { name: 'Add Customer' });
+    this.openAccountButton = page.getByRole('button', { name: 'Open Account' });
+    this.customersButton = page.getByRole('button', { name: 'Customers' });
+  
     this.customerNameDropDownLocator = page.locator('#userSelect');
     this.customerCurrencyDropDownLocator = page.locator('#currency');
-    this.processButtonLocator = page.getByRole('button', { name: 'Process'});
+    this.processButton = page.getByRole('button', { name: 'Process'});
 
-    this.searchCustomerFieldLocator = page.getByPlaceholder('Search Customer');
-    this.countTableLimit = page.locator('table tbody tr');
+    this.searchCustomerField = page.getByPlaceholder('Search Customer');
+    this.countCustomerTableRows = page.locator('table tbody tr');
 
 
   }
@@ -57,11 +58,11 @@ export class AddCustomerPage {
   }
 
   async clickAddCustomerSubmitButton() {
-    await this.addCustomerSubmitButtonLocator.click();
+    await this.addCustomerSubmitButton.click();
   }
 
   async clickCustomersTabButton() {
-    await this.customersButtonLocator.click();
+    await this.customersButton.click();
   }
 
   async assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode) {
@@ -149,21 +150,21 @@ export class AddCustomerPage {
   // manager can open accounts
 
   async clickOpenAccountTabButton() {
-    await this.openAccountTabButtonLocator.click();
+    await this.openAccountButton.click();
   }
 
   async clickProcessButton() {
-    await this.processButtonLocator.click();
+    await this.processButton.click();
   }
 
   //manage can search customer by first name
 
   async fillSearchCustomerField(name) {
-    await this.searchCustomerFieldLocator.fill(name);
+    await this.searchCustomerField.fill(name);
   }
 
-  async checkCountTableLimit() {
-    await expect(this.countTableLimit).toHaveCount(1);
+  async checkCountTableLimit(expectedCount) {
+    await expect(this.countCustomerTableRows).toHaveCount(expectedCount);
   }
 
 }

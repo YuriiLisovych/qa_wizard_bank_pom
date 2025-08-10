@@ -4,9 +4,9 @@ export class BankManagerMainPage {
   constructor(page) {
     this.page = page;
 
-    this.addCustomerButtonLocator = page.getByRole('button', { name: 'Add Customer' });
-    this.customersButtonLocator = page.getByRole('button', { name: 'Customers' });
-    this.openAccountButtonLocator = page.getByRole('button', { name: 'Open Account' });
+    this.addCustomerButton = page.getByRole('button', { name: 'Add Customer' });
+    this.customersButton = page.getByRole('button', { name: 'Customers' });
+    this.openAccountButton = page.getByRole('button', { name: 'Open Account' });
   }
 
   async open() {
@@ -14,14 +14,20 @@ export class BankManagerMainPage {
   }
 
   async assertAddCustomerButtonVisible() {
-    await expect(this.addCustomerButtonLocator).toBeVisible();
+    await expect(this.addCustomerButton).toBeVisible();
   }
 
   async assertOpenAccountButtonVisible() {
-    await expect(this.openAccountButtonLocator).toBeVisible();
+    await expect(this.openAccountButton).toBeVisible();
   }
 
   async assertCustomersButtonVisible() {
-    await expect(this.customersButtonLocator).toBeVisible();
+    await expect(this.customersButton).toBeVisible();
+  }
+
+  async assertButtonsOnManagerPage() {
+    await this.assertAddCustomerButtonVisible();
+    await this.assertOpenAccountButtonVisible();
+    await this.assertCustomersButtonVisible();
   }
 }

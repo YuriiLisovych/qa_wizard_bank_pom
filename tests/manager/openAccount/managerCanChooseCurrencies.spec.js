@@ -1,18 +1,16 @@
 import { test } from '@playwright/test';
-import { faker } from '@faker-js/faker';
 import { AddCustomerPage } from "../../../src/pages/manager/AddCustomerPage";
 
 test('Assert manager can choose currencies for account', async ({ page }) => {
 
   const addCustomerPage = new AddCustomerPage(page);
+  const currencies = ['Dollar', 'Pound', 'Rupee'];
 
   await addCustomerPage.openAccountPage();
-  await addCustomerPage.selectCurrencyDropDown('Dollar');
-  await addCustomerPage.assertSelectedCurrency('Dollar');
-  await addCustomerPage.selectCurrencyDropDown('Pound');
-  await addCustomerPage.assertSelectedCurrency('Pound');
-  await addCustomerPage.selectCurrencyDropDown('Rupee');
-  await addCustomerPage.assertSelectedCurrency('Rupee');
+  for (const currency of currencies) { 
+    await addCustomerPage.selectCurrencyDropDown(currency); 
+    await addCustomerPage.assertSelectedCurrency(currency); 
+  }
   
   /* 
   Test:
