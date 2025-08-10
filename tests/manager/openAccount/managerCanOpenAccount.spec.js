@@ -44,7 +44,7 @@ test('Assert manager can add new customer', async ({ page }) => {
   await addCustomerPage.reloadPage();
   await addCustomerPage.clickCustomersTabButton();
   await addCustomerPage.assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode);
-  await addCustomerPage.assertCustomerAccountNumberHasNumberValue();
+  await addCustomerPage.assertCustomerAccountNumberHasNumberValue(randomFirstName, randomLastName, randomPostCode);
 
   /* 
   Test:

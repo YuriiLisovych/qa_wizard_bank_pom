@@ -8,12 +8,7 @@ export class AddCustomerPage {
     this.lastNameField = page.getByPlaceholder('Last Name');
     this.postCodeField = page.getByPlaceholder('Post Code');
     this.addCustomerSubmitButtonLocator = page.getByRole('form').getByRole('button', { name: 'Add Customer' });
-    this.customersTabButtonLocator = page.getByRole('button', { name: 'Customers' });
-    this.openAccountTabButtonLocator = page.getByRole('button', { name: 'Open Account' });
-    this.addCustomersButtonLocator = page.getByRole('button', { name: 'Add Customer' });
-    this.openAccountButtonLocator = page.getByRole('button', { name: 'Open Account' });
     this.customersButtonLocator = page.getByRole('button', { name: 'Customers' });
-    this.bankManagerLoginButtonLocator = page.getByRole('button', { name: 'Bank Manager Login' });
 
     this.customerNameDropDownLocator = page.locator('#userSelect');
     this.customerCurrencyDropDownLocator = page.locator('#currency');
@@ -29,10 +24,6 @@ export class AddCustomerPage {
 
   async open() {
     await this.page.goto('/angularJs-protractor/BankingProject/#/manager/addCust',);
-  }
-
-  async openLoginPage() {
-    await this.page.goto('/angularJs-protractor/BankingProject/#/login');
   }
 
   async openAccountPage() {
@@ -53,24 +44,24 @@ export class AddCustomerPage {
 
   // add customer
 
-  async fillUserFirstNameField(string) {
-    await this.firstNameField.fill(string);
+  async fillUserFirstNameField(firstName) {
+    await this.firstNameField.fill(firstName);
   }
 
-  async fillUserLastNameField(string) {
-    await this.lastNameField.fill(string);
+  async fillUserLastNameField(lastName) {
+    await this.lastNameField.fill(lastName);
   }
 
-  async fillPostCodeField(value) {
-    await this.postCodeField.fill(value);
+  async fillPostCodeField(postCode) {
+    await this.postCodeField.fill(postCode);
   }
 
-  async clickAddCustomerButton() {
+  async clickAddCustomerSubmitButton() {
     await this.addCustomerSubmitButtonLocator.click();
   }
 
   async clickCustomersTabButton() {
-    await this.customersTabButtonLocator.click();
+    await this.customersButtonLocator.click();
   }
 
   async assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode) {
@@ -111,24 +102,6 @@ export class AddCustomerPage {
     const accountNumberCell = rowWithUserLocator.locator('td').nth(3);
 
     await expect(accountNumberCell).not.toHaveText('');
-  }
-
-  // manager can login
-
-  async clickBankManagerLoginButton() {
-    await this.bankManagerLoginButtonLocator.click();
-  }
-
-  async assertAddCustomerButtonVisible() {
-    await expect(this.addCustomersButtonLocator).toBeVisible();
-  }
-
-  async assertOpenAccountButtonVisible() {
-    await expect(this.openAccountButtonLocator).toBeVisible();
-  }
-
-  async assertCustomersButtonVisible() {
-    await expect(this.customersButtonLocator).toBeVisible();
   }
 
   // manager can delete customer

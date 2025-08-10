@@ -1,15 +1,17 @@
 import { test } from '@playwright/test';
-import { AddCustomerPage } from "../../../src/pages/manager/AddCustomerPage";
+import { BankHomePage } from "../../../src/pages/BankHomePage";
+import { BankManagerMainPage } from "../../../src/pages/manager/BankManagerMainPage";
 
 test('Assert manager can Login', async ({ page }) => {
 
-  const addCustomerPage = new AddCustomerPage(page);
+  const bankManagerMainPage = new BankManagerMainPage(page);
+  const bankHomePage = new BankHomePage(page);
 
-  await addCustomerPage.openLoginPage();
-  await addCustomerPage.clickBankManagerLoginButton();
-  await addCustomerPage.assertAddCustomerButtonVisible();
-  await addCustomerPage.assertOpenAccountButtonVisible();
-  await addCustomerPage.assertCustomersButtonVisible();
+  await bankHomePage.openLoginPage();
+  await bankHomePage.clickBankManagerLoginButton();
+  await bankManagerMainPage.assertAddCustomerButtonVisible();
+  await bankManagerMainPage.assertOpenAccountButtonVisible();
+  await bankManagerMainPage.assertCustomersButtonVisible();
 
 
 

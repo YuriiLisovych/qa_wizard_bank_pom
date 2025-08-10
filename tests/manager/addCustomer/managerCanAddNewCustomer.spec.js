@@ -1,11 +1,13 @@
 import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { AddCustomerPage } from "../../../src/pages/manager/AddCustomerPage";
+import { BankManagerMainPage } from "../../../src/pages/manager/BankManagerMainPage";
 
 test('Assert manager can add new customer', async ({ page }) => {
   const addCustomerPage = new AddCustomerPage(page);
+  const bankManagerMainPage = new BankManagerMainPage(page);
 
-  await addCustomerPage.open('/');
+  await addCustomerPage.open();
   const randomFirstName = faker.person.firstName();
   const randomLastName = faker.person.lastName();
   const randomPostCode = faker.location.zipCode();
@@ -13,7 +15,7 @@ test('Assert manager can add new customer', async ({ page }) => {
   await addCustomerPage.fillUserFirstNameField(randomFirstName);
   await addCustomerPage.fillUserLastNameField(randomLastName);
   await addCustomerPage.fillPostCodeField(randomPostCode);
-  await addCustomerPage.clickAddCustomerButton();
+  await addCustomerPage.clickAddCustomerSubmitButton();
   await addCustomerPage.reloadPage();
   await addCustomerPage.clickCustomersTabButton();
 

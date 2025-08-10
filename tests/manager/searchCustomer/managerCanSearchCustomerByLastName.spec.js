@@ -36,7 +36,7 @@ test('Assert manager can search customer by Last Name', async ({ page }) => {
   await addCustomerPage.clickCustomersTabButton();
   await addCustomerPage.fillSearchCustomerField(randomLastName);
   await addCustomerPage.assertCustomerIsPresent(randomLastName);
-  await addCustomerPage.checkCountTableLimit();
+  await addCustomerPage.checkCountTableLimit(1);
   /* 
   Test:
   1. Open Customers page
