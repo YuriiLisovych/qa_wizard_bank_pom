@@ -19,7 +19,6 @@ test.beforeEach(async ({ page }) => {
   await addCustomerPage.fillUserLastNameField(randomLastName);
   await addCustomerPage.fillPostCodeField(randomPostCode);
   await addCustomerPage.clickAddCustomerSubmitButton();
-  await addCustomerPage.page.on('dialog', dialog => dialog.accept());
   /* 
   Pre-conditons:
   1. Open Add Customer page
@@ -41,7 +40,6 @@ test('Assert manager can open an account for a new customer', async ({ page }) =
   await addCustomerPage.selectCustomerNameDropDown(fullName);
   await addCustomerPage.selectCurrencyDropDown('Dollar');
   await addCustomerPage.clickProcessButton();
-  await addCustomerPage.page.on('dialog', dialog => dialog.accept());
   await addCustomerPage.clickCustomersTabButton();
   await addCustomerPage.assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode);
   await addCustomerPage.assertCustomerAccountNumberHasNumberValue(randomFirstName, randomLastName, randomPostCode);

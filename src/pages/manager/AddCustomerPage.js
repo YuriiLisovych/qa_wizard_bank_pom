@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 
 export class AddCustomerPage {
   constructor(page) {
-
+    
     this.page = page;
     this.firstNameField = page.getByPlaceholder('First Name');
     this.lastNameField = page.getByPlaceholder('Last Name');
@@ -17,14 +17,20 @@ export class AddCustomerPage {
 
     this.searchCustomerField = page.getByPlaceholder('Search Customer');
     this.countCustomerTableRows = page.locator('table tbody tr');
+    
+  }
 
-
+  getCustomerRow(firstName, lastName, postCode) {
+    return this.page
+      .locator('table tbody tr', { hasText: firstName })
+      .filter({ hasText: lastName })
+      .filter({ hasText: postCode });
   }
 
   // pages
 
   async open() {
-    await this.page.goto('/angularJs-protractor/BankingProject/#/manager/addCust',);
+    await this.page.goto('/angularJs-protractor/BankingProject/#/manager/addCust');
   }
 
   async openAccountPage() {
@@ -58,6 +64,10 @@ export class AddCustomerPage {
   }
 
   async clickAddCustomerSubmitButton() {
+    this.page.once('dialog', dialog => {
+      expect(dialog.message()).toContain('Customer added successfully');
+      dialog.accept();
+    });
     await this.addCustomerSubmitButton.click();
   }
 
@@ -65,72 +75,35 @@ export class AddCustomerPage {
     await this.customersButton.click();
   }
 
-  async assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode) {
-    const rowWithUserLocator = this.page.locator('table tbody tr', {
-      hasText: randomFirstName
-    }).filter({
-      hasText: randomLastName
-    }).filter({
-      hasText: randomPostCode
-    });
-
-    await expect(rowWithUserLocator).toBeVisible();
-  }
-
-  async assertCustomerAccountNumberIsEmpty(randomFirstName, randomLastName, randomPostCode) {
-    const rowWithUserLocator = this.page.locator('table tbody tr', {
-      hasText: randomFirstName
-    }).filter({
-      hasText: randomLastName
-    }).filter({
-      hasText: randomPostCode
-    });
-
-    const accountNumberCell = rowWithUserLocator.locator('td').nth(3);
-
+  async assertCustomerAccountNumberIsEmpty(firstName, lastName, postCode) {
+    const row = this.getCustomerRow(firstName, lastName, postCode);
+    const accountNumberCell = row.locator('td').nth(3);
     await expect(accountNumberCell).toHaveText('');
   }
 
-  async assertCustomerAccountNumberHasNumberValue(randomFirstName, randomLastName, randomPostCode) {
-    const rowWithUserLocator = this.page.locator('table tbody tr', {
-      hasText: randomFirstName
-    }).filter({
-      hasText: randomLastName
-    }).filter({
-      hasText: randomPostCode
-    });
-
-    const accountNumberCell = rowWithUserLocator.locator('td').nth(3);
-
+  async assertCustomerAccountNumberHasNumberValue(firstName, lastName, postCode) {
+    const row = this.getCustomerRow(firstName, lastName, postCode);
+    const accountNumberCell = row.locator('td').nth(3);
     await expect(accountNumberCell).not.toHaveText('');
   }
 
   // manager can delete customer
 
-  async clickDeleteUserButton(randomFirstName, randomLastName, randomPostCode) {
-    const rowWithUserLocator = this.page.locator('table tbody tr', {
-      hasText: randomFirstName
-    }).filter({
-      hasText: randomLastName
-    }).filter({
-      hasText: randomPostCode
-    });
-
-    const clickDeleteButtonLocator = rowWithUserLocator.getByRole('button', { name: 'Delete'});
-
-    await clickDeleteButtonLocator.click();
+  async assertCustomerIsDeleted(firstName, lastName, postCode) {
+    const row = this.getCustomerRow(firstName, lastName, postCode);
+    await expect(row).toHaveCount(0); // або toBeHidden() якщо row існує як локатор
   }
 
-  async assertCustomerIsDeleted(randomFirstName, randomLastName, randomPostCode) {
-    const rowWithUserLocator = this.page.locator('table tbody tr', {
-      hasText: randomFirstName
-    }).filter({
-      hasText: randomLastName
-    }).filter({
-      hasText: randomPostCode
-    });
+  async clickDeleteUserButton(firstName, lastName, postCode) {
+    const row = this.getCustomerRow(firstName, lastName, postCode);
+    const deleteButton = row.getByRole('button', { name: 'Delete' });
+    await deleteButton.click();
+  }
 
-    await expect(rowWithUserLocator).toBeHidden();
+
+  async assertCustomerIsPresent(firstName, lastName, postCode) {
+    const row = this.getCustomerRow(firstName, lastName, postCode);
+    await expect(row).toBeVisible();
   }
 
   //manager can choose currencies 
@@ -154,6 +127,10 @@ export class AddCustomerPage {
   }
 
   async clickProcessButton() {
+    this.page.once('dialog', dialog => {
+      expect(dialog.message()).toContain('Account created successfully with account Number');
+      dialog.accept();
+    });
     await this.processButton.click();
   }
 

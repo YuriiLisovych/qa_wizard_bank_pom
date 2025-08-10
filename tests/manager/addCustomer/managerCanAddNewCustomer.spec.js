@@ -1,7 +1,6 @@
 import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { AddCustomerPage } from "../../../src/pages/manager/AddCustomerPage";
-import { BankManagerMainPage } from "../../../src/pages/manager/BankManagerMainPage";
 
 test('Assert manager can add new customer', async ({ page }) => {
   const addCustomerPage = new AddCustomerPage(page);
@@ -15,11 +14,12 @@ test('Assert manager can add new customer', async ({ page }) => {
   await addCustomerPage.fillUserLastNameField(randomLastName);
   await addCustomerPage.fillPostCodeField(randomPostCode);
   await addCustomerPage.clickAddCustomerSubmitButton();
-  await addCustomerPage.page.on('dialog', dialog => dialog.accept());
   await addCustomerPage.clickCustomersTabButton();
 
   await addCustomerPage.assertCustomerIsPresent(randomFirstName, randomLastName, randomPostCode);
-  await addCustomerPage.assertCustomerAccountNumberIsEmpty(randomFirstName, randomLastName, randomPostCode);
+  await addCustomerPage.assertCustomerAccountNumberIsEmpty(randomFirstName, randomLastName, randomPostCode)
+
+
 
 
   /* 
